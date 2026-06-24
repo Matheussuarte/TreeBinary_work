@@ -1,95 +1,95 @@
 from Tree import Tree
 
-class Aluno:
-    def __init__(self, nome, matricula, curso, nota):
+class Student:
+    def __init__(self, name, registration, course, grade):
 
-        self.nome = nome
-        self.matricula = matricula
-        self.curso = curso
-        self.nota = nota
+        self.name = name
+        self.registration = registration
+        self.course = course
+        self.grade = grade
 
     def __str__(self):
 
         return (
-            f"Nome: {self.nome} | "
-            f"Matrícula: {self.matricula} | "
-            f"Curso: {self.curso} | "
-            f"Nota: {self.nota}"
+            f"Name: {self.name} | "
+            f"Registration: {self.registration} | "
+            f"Course: {self.course} | "
+            f"Grade: {self.grade}"
         )
 
-class Sistema:
+class System:
     def __init__(self):
 
-        # árvore por nota
-        self.notas = Tree(lambda aluno: aluno.nota)
+        # tree sorted by grade
+        self.grades = Tree(lambda student: student.grade)
 
+        # tree sorted by name
+        self.names = Tree(lambda student: student.name.lower())
 
-        # árvore por nome
-        self.nomes = Tree(lambda aluno: aluno.nome.lower())
+    def register(self):
+        name = input("Name: ")
+        registration = input("Registration: ")
+        course = input("Course: ")
+        grade = float(input("Grade: "))
 
-    def cadastrar(self):
-        nome = input("Nome: ")
-        matricula = input("Matrícula: ")
-        curso = input("Curso: ")
-        nota = float(input("Nota: "))
-
-        aluno = Aluno(
-            nome,
-            matricula,
-            curso,
-            nota
+        student = Student(
+            name,
+            registration,
+            course,
+            grade
         )
 
-        self.notas.add(aluno)
-        self.nomes.add(aluno)
+        self.grades.add(student)
+        self.names.add(student)
 
-    def rankingMaiorMenor(self):
+    def rankingHighestToLowest(self):
         print("\nRanking:")
-        self.notas.reverseOrder()
+        self.grades.reverseOrder()
 
+    def alphabeticalOrder(self):
+        print("\nStudents A-Z:")
+        self.names.inOrder()
 
-    def ordemAlfabetica(self):
-        print("\nAlunos A-Z:")
-        self.nomes.inOrder()
-
-
-    def buscarNome(self):
-        nome = input("Nome do aluno: ")
-        resultado = self.nomes.search(
-            nome.lower()
+    def searchByName(self):
+        name = input("Student name: ")
+        result = self.names.search(
+            name.lower()
         )
-        if resultado:
-            print(resultado)
+
+        if result:
+            print(result)
         else:
-            print("Aluno não encontrado")
+            print("Student not found")
 
 def menu():
-    sistema = Sistema()
+    system = System()
+
     while True:
         print("""
-====== SISTEMA DE ALUNOS ======
+====== STUDENT MANAGEMENT SYSTEM ======
 
-1 - Cadastrar aluno
-2 - Ranking de notas
-3 - Lista A-Z
-4 - Buscar aluno
-0 - Sair
+1 - Register student
+2 - Grade ranking
+3 - A-Z list
+4 - Search student
+0 - Exit
 """)
 
-        op = input("Opção: ")
-        if op == "1":
-            sistema.cadastrar()
+        option = input("Option: ")
 
-        elif op == "2":
-            sistema.rankingMaiorMenor()
+        if option == "1":
+            system.register()
 
-        elif op == "3":
-            sistema.ordemAlfabetica()
+        elif option == "2":
+            system.rankingHighestToLowest()
 
-        elif op == "4":
-            sistema.buscarNome()
+        elif option == "3":
+            system.alphabeticalOrder()
 
-        elif op == "0":
+        elif option == "4":
+            system.searchByName()
+
+        elif option == "0":
             break
 
 menu()
